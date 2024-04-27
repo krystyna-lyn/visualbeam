@@ -22,7 +22,6 @@ const Navbar = () => {
                 <div className="flex-between gap-5">
                     <SignedIn>
                         <UserButton afterSignOutUrl="/sign-in" />
-                        <div>You are signed in</div>
                     </SignedIn>
 
                     <MobileNav />
