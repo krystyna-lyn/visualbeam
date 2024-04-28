@@ -26,8 +26,6 @@ const Navbar = () => {
 
                     <MobileNav />
                 </div>
-
-                <MobileNav />
             </div>
 
         </nav>
