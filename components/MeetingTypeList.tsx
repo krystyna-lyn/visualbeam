@@ -1,5 +1,6 @@
 import React from 'react'
 import HomeCard from './HomeCard'
+import MeetingModal from './MeetingModal'
 
 const MeetingTypeList = () => {
 
@@ -28,6 +29,8 @@ const MeetingTypeList = () => {
         description="Meeting Recordings"
         className="bg-yellow-1"
       />
+
+
 
     </section>
   )
