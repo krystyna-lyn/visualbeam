@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import HomeCard from './HomeCard'
 import MeetingModal from './MeetingModal'
 
 const MeetingTypeList = () => {
+
+  const [meetingState, setMeetingState] = useState<
+    'isScheduleMeeting' | 'isJoiningMeeting' | 'isInstantMeeting' | undefined
+  >(undefined);
+
+  const createMeeting = async () => {
+
+  }
 
 
   return (
@@ -30,7 +38,14 @@ const MeetingTypeList = () => {
         className="bg-yellow-1"
       />
 
-
+      <MeetingModal
+        isOpen={meetingState === 'isInstantMeeting'}
+        onClose={() => setMeetingState(undefined)}
+        title="Start an Instant Meeting"
+        className="text-center"
+        buttonText="Start Meeting"
+        handleClick={createMeeting}
+      />
 
     </section>
   )
