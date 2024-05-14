@@ -1,6 +1,9 @@
+"use client"
+
 import React, { useState } from 'react'
 import HomeCard from './HomeCard'
 import MeetingModal from './MeetingModal'
+import router from 'next/router'
 
 const MeetingTypeList = () => {
 
@@ -19,23 +22,29 @@ const MeetingTypeList = () => {
         img="/icons/add-meeting.svg"
         title="New Meeting"
         description="Start an instant meeting"
+        handleClick={() => setMeetingState('isInstantMeeting')}
       />
       <HomeCard
-        img="/icons/add-meeting.svg"
-        title="New Meeting"
-        description="Start an instant meeting"
+        img="/icons/recordings.svg"
+        title="Recordings"
+        description="Meeting Recordings"
+        className="bg-purple-1"
+        handleClick={() => router.push('/recordings')}
       />
       <HomeCard
         img="/icons/join-meeting.svg"
         title="Join Meeting"
         description="via invitation link"
         className="bg-blue-1"
+        handleClick={() => setMeetingState('isJoiningMeeting')}
       />
       <HomeCard
-        img="/icons/recordings.svg"
-        title="View Recordings"
-        description="Meeting Recordings"
+        img="/icons/schedule.svg"
+        title="Schedule Meeting"
+        description="Plan your meeting"
         className="bg-yellow-1"
+        handleClick={() => setMeetingState('isScheduleMeeting')}
+
       />
 
       <MeetingModal
