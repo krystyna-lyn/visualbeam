@@ -4,6 +4,9 @@ import React, { useState } from 'react'
 import HomeCard from './HomeCard'
 import MeetingModal from './MeetingModal'
 import router from 'next/router'
+import { useUser } from '@clerk/nextjs'
+import { useStreamVideoClient } from '@stream-io/video-react-sdk'
+import { error } from 'console'
 
 const MeetingTypeList = () => {
 
@@ -11,7 +14,23 @@ const MeetingTypeList = () => {
     'isScheduleMeeting' | 'isJoiningMeeting' | 'isInstantMeeting' | undefined
   >(undefined);
 
+  const user = useUser()
+  const client = useStreamVideoClient()
+
   const createMeeting = async () => {
+    if (!user || !client) return
+
+    try {
+      const id = crypto.randomUUID()
+      const call = client.call('default', id)
+
+      if (!call) throw new Error('Call failed')
+
+    } catch (error) {
+      console.log(error)
+    };
+
+
 
   }
 
