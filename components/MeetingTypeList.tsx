@@ -5,16 +5,24 @@ import HomeCard from './HomeCard'
 import MeetingModal from './MeetingModal'
 import router from 'next/router'
 import { useUser } from '@clerk/nextjs'
-import { useStreamVideoClient } from '@stream-io/video-react-sdk'
-import { error } from 'console'
+import { Call, useStreamVideoClient } from '@stream-io/video-react-sdk'
+
+
+const initialValues = {
+  dateTime: new Date(),
+  description: '',
+  link: '',
+};
 
 const MeetingTypeList = () => {
 
   const [meetingState, setMeetingState] = useState<
     'isScheduleMeeting' | 'isJoiningMeeting' | 'isInstantMeeting' | undefined
   >(undefined);
+  const [values, setValues] = useState(initialValues);
+  const [callDetail, setCallDetail] = useState<Call>();
 
-  const user = useUser()
+  const { user } = useUser(); // user is null if not logged in
   const client = useStreamVideoClient()
 
   const createMeeting = async () => {
@@ -26,9 +34,27 @@ const MeetingTypeList = () => {
 
       if (!call) throw new Error('Call failed')
 
+      const startsAt = values.dateTime.toISOString() || new Date(Date.now()).toISOString();
+      const description = values.description || 'Instant Meeting';
+
+      await call.getOrCreate({
+        data: {
+          starts_at: startsAt,
+          custom: {
+            description,
+          },
+        },
+      });
+
+      setCallDetail(call);
+      if (!values.description) {
+        router.push(`/meeting/${call.id}`);
+      }
+
     } catch (error) {
       console.log(error)
     };
+
 
 
 
