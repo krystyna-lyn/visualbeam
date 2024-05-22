@@ -6,6 +6,8 @@ import MeetingModal from './MeetingModal'
 import router from 'next/router'
 import { useUser } from '@clerk/nextjs'
 import { Call, useStreamVideoClient } from '@stream-io/video-react-sdk'
+import { useToast } from './ui/use-toast';
+import Loader from './Loader'
 
 
 const initialValues = {
@@ -24,17 +26,21 @@ const MeetingTypeList = () => {
 
   const { user } = useUser(); // user is null if not logged in
   const client = useStreamVideoClient()
+  const { toast } = useToast();
 
   const createMeeting = async () => {
-    if (!user || !client) return
-
+    if (!client || !user) return;
     try {
-      const id = crypto.randomUUID()
-      const call = client.call('default', id)
+      if (!values.dateTime) {
+        toast({ title: 'Please select a date and time' });
+        return;
+      }
 
-      if (!call) throw new Error('Call failed')
-
-      const startsAt = values.dateTime.toISOString() || new Date(Date.now()).toISOString();
+      const id = crypto.randomUUID();
+      const call = client.call('default', id);
+      if (!call) throw new Error('Failed to create meeting');
+      const startsAt =
+        values.dateTime.toISOString() || new Date(Date.now()).toISOString();
       const description = values.description || 'Instant Meeting';
 
       await call.getOrCreate({
@@ -45,20 +51,21 @@ const MeetingTypeList = () => {
           },
         },
       });
-
       setCallDetail(call);
       if (!values.description) {
         router.push(`/meeting/${call.id}`);
       }
-
+      toast({
+        title: 'Meeting Created',
+      });
     } catch (error) {
-      console.log(error)
-    };
+      console.error(error);
+      toast({ title: 'Failed to create Meeting' });
+    }
+  };
 
+  if (!client || !user) return <Loader />;
 
-
-
-  }
 
 
   return (
