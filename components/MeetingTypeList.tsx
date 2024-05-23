@@ -96,7 +96,6 @@ const MeetingTypeList = () => {
         description="Plan your meeting"
         className="bg-yellow-1"
         handleClick={() => setMeetingState('isScheduleMeeting')}
-
       />
 
       <MeetingModal
