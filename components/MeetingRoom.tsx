@@ -1,6 +1,34 @@
-import React from 'react'
+import { CallingState, PaginatedGridLayout, SpeakerLayout, useCallStateHooks } from '@stream-io/video-react-sdk';
+import { useRouter, useSearchParams } from 'next/navigation';
+import React, { useState } from 'react'
+import Loader from './Loader';
+
+type CallLayoutType = 'grid' | 'speaker-left' | 'speaker-right';
 
 const MeetingRoom = () => {
+
+    const CallLayout = () => {
+        switch (layout) {
+            case 'grid':
+                return <PaginatedGridLayout />;
+            case 'speaker-right':
+                return <SpeakerLayout participantsBarPosition="left" />;
+            default:
+                return <SpeakerLayout participantsBarPosition="right" />;
+        }
+    };
+
+
+    const searchParams = useSearchParams();
+    const isPersonalRoom = !!searchParams.get('personal');
+    const router = useRouter();
+    const [layout, setLayout] = useState<CallLayoutType>('speaker-left');
+    const [showParticipants, setShowParticipants] = useState(false);
+    const { useCallCallingState } = useCallStateHooks();
+
+    const callingState = useCallCallingState();
+
+    if (callingState !== CallingState.JOINED) return <Loader />;
     return (
         <section className="relative h-screen w-full overflow-hidden pt-4 text-white">
             <div className="relative flex size-full items-center justify-center">
