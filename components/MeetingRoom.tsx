@@ -7,6 +7,17 @@ type CallLayoutType = 'grid' | 'speaker-left' | 'speaker-right';
 
 const MeetingRoom = () => {
 
+    const searchParams = useSearchParams();
+    const isPersonalRoom = !!searchParams.get('personal');
+    const router = useRouter();
+    const [layout, setLayout] = useState<CallLayoutType>('speaker-left');
+    const [showParticipants, setShowParticipants] = useState(false);
+    const { useCallCallingState } = useCallStateHooks();
+
+    const callingState = useCallCallingState();
+
+    if (callingState !== CallingState.JOINED) return <Loader />;
+
     const CallLayout = () => {
         switch (layout) {
             case 'grid':
@@ -18,22 +29,11 @@ const MeetingRoom = () => {
         }
     };
 
-
-    const searchParams = useSearchParams();
-    const isPersonalRoom = !!searchParams.get('personal');
-    const router = useRouter();
-    const [layout, setLayout] = useState<CallLayoutType>('speaker-left');
-    const [showParticipants, setShowParticipants] = useState(false);
-    const { useCallCallingState } = useCallStateHooks();
-
-    const callingState = useCallCallingState();
-
-    if (callingState !== CallingState.JOINED) return <Loader />;
     return (
         <section className="relative h-screen w-full overflow-hidden pt-4 text-white">
             <div className="relative flex size-full items-center justify-center">
                 <div className=" flex size-full max-w-[1000px] items-center">
-
+                    <CallLayout />
                 </div>
             </div>
 
