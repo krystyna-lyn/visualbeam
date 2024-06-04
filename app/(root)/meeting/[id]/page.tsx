@@ -1,22 +1,14 @@
-import { StreamCall, StreamTheme } from '@stream-io/video-react-sdk'
 
 
-const MeetingPage = () => {
+
+const MeetingRoom = () => {
 
     return (
         <main className="h-screen w-full">
-            <StreamCall>
-                <StreamTheme>
 
-
-                </StreamTheme>
-            </StreamCall>
         </main>
     )
 }
 
-export default MeetingPage
+export default MeetingRoom
 
-function useGetCallById(id: any): { call: any; isCallLoading: any; } {
-    throw new Error('Function not implemented.');
-}
