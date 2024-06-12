@@ -7,7 +7,11 @@ import {
 import { useEffect, useState } from 'react';
 import { Button } from './ui/button';
 
-const MeetingSetup = () => {
+const MeetingSetup = ({
+    setIsSetupComplete,
+}: {
+    setIsSetupComplete: (value: boolean) => void;
+}) => {
     const [isMicToggled, setIsMicToggled] = useState(false)
     const call = useCall();
 
@@ -37,7 +41,15 @@ const MeetingSetup = () => {
                 </label>
                 <DeviceSettings />
             </div>
-            <Button className='rounded-md bg-green-700 px-4 py-2.5'>
+            <Button className='rounded-md bg-green-700 px-4 py-2.5'
+                onClick={
+                    () => {
+                        call?.join();
+
+                        setIsSetupComplete(true);
+                    }
+                }>
+
                 Join Meeting
             </Button>
         </div>
