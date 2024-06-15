@@ -17,7 +17,7 @@ type CallLayoutType = 'grid' | 'speaker-left' | 'speaker-right'
 const MeetingRoom = () => {
 
     const [layout, setLayout] = useState<CallLayoutType>('speaker-left')
-    const [showParticipant, setShowParticipant] = useState(false)
+    const [showParticipants, setShowParticipants] = useState(false)
 
     const CallLayout = () => {
         switch (layout) {
@@ -38,8 +38,8 @@ const MeetingRoom = () => {
                     <CallLayout />
                 </div>
 
-                <div className={cn('hidden ml-2', { 'show block': showParticipant })}>
-                    <CallParticipantsList onClose={() => setShowParticipant(false)} />
+                <div className={cn('hidden ml-2', { 'show block': showParticipants })}>
+                    <CallParticipantsList onClose={() => setShowParticipants(false)} />
 
                 </div>
             </div>
@@ -55,7 +55,18 @@ const MeetingRoom = () => {
 
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className='border-dark-1 bg-dark-1 text-white'>
-
+                            {['Grid', 'Speaker-Left', 'Speaker-Right'].map((item, index) => (
+                                <div key={index}>
+                                    <DropdownMenuItem
+                                        onClick={() =>
+                                            setLayout(item.toLowerCase() as CallLayoutType)
+                                        }
+                                    >
+                                        {item}
+                                    </DropdownMenuItem>
+                                    <DropdownMenuSeparator className="border-dark-1" />
+                                </div>
+                            ))}
                             <DropdownMenuSeparator />
 
                         </DropdownMenuContent>
