@@ -1,8 +1,7 @@
 import {
     DeviceSettings,
     VideoPreview,
-    useCall,
-    useCallStateHooks,
+    useCall
 } from '@stream-io/video-react-sdk';
 import { useEffect, useState } from 'react';
 import { Button } from './ui/button';

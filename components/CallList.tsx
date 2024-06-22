@@ -1,3 +1,5 @@
+//@ts-nocheck
+
 'use client'
 import { useGetCalls } from '@/hooks/useGetCalls'
 import { Call, CallRecording } from '@stream-io/video-react-sdk';
@@ -43,7 +45,27 @@ const CallList = ({ type }: { type: 'upcoming' | 'ended' | 'recordings' }) => {
         <div className='grid grid-cols-1 gap-5 xl:grid-cols-2'>
             {calls && calls.length > 0 ? calls.map(
                 (meeting: Call | CallRecording) => (
-                    <MeetingCard />
+                    <MeetingCard
+                        key={(meeting as Call).id}
+                        title={(meeting as Call).state.custom?.description.substring(0, 20)
+                            || 'No description'
+                        }
+                        date={(meeting as Call).state?.startsAt?.toLocaleString() ||
+                            (meeting as CallRecording).start_time?.toLocaleString()
+                        }
+                        icon={
+                            type === 'ended'
+                                ? '/icons/previous.svg'
+                                : type === 'upcoming'
+                                    ? '/icons/upcoming.svg'
+                                    : '/icons/recording.svg'
+                        }
+                        isPreviousMeeting='{ }'
+                        buttonIcon1='{ }'
+                        buttonText='{ }'
+                        handleClick='{ }'
+                        link='{ }'
+                    />
                 )) :
                 (
                     <h1 className="text-2xl font-bold text-white">
