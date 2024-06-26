@@ -30,7 +30,7 @@ const CallList = ({ type }: { type: 'upcoming' | 'ended' | 'recordings' }) => {
             case 'ended':
                 return 'No previous Calls';
             case 'recordings':
-                return 'No srecordings';
+                return 'No recordings';
             case 'upcoming':
                 return 'No upcoming Calls';
             default:
@@ -60,11 +60,17 @@ const CallList = ({ type }: { type: 'upcoming' | 'ended' | 'recordings' }) => {
                                     ? '/icons/upcoming.svg'
                                     : '/icons/recording.svg'
                         }
-                        isPreviousMeeting='{ }'
-                        buttonIcon1='{ }'
-                        buttonText='{ }'
-                        handleClick='{ }'
-                        link='{ }'
+                        isPreviousMeeting={type === 'ended'}
+                        link={type === 'recordings' ? (meeting as CallRecording).url
+                            : `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${(meeting as Call).id}`
+                        }
+                        buttonIcon1={type === 'recordings' ? '/icons/play.svg' : undefined}
+                        buttonText={type === 'recordings' ? 'Play' : 'Start'}
+                        handleClick={type === 'recordings'
+                            ? () => router.push(`${(meeting as CallRecording).url}`)
+                            : () => router.push(`/meeting/${(meeting as Call).id}`)
+                        }
+
                     />
                 )) :
                 (
