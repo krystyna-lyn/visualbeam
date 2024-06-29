@@ -13,7 +13,7 @@ import { useToast } from './ui/use-toast';
 const CallList = ({ type }: { type: 'upcoming' | 'ended' | 'recordings' }) => {
 
     const router = useRouter();
-    const toast = useToast();
+    const { toast } = useToast();
 
     const { endedCalls, upcomingCalls, callRecordings, isLoading } = useGetCalls();
     const [recordings, setRecordings] = useState<CallRecording[]>([]);
